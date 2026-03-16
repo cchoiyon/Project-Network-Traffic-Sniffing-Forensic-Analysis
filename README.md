@@ -26,7 +26,7 @@ This project demonstrates a professional penetration testing engagement focused 
 This section documents the initial environment setup using **Kali Linux**. I elevated to root privileges to initialize the **vsftpd** FTP service and executed `tcpdump -D` to identify **eth0** as the primary active interface for traffic interception.
 
 <p align="center">
-  <img src="pic1.png" width="700" alt="...">
+  <img src="pic1.PNG" width="700" alt="...">
 </p>
 <p align="center">
   <img src="pic2.png" width="700" alt="...">
