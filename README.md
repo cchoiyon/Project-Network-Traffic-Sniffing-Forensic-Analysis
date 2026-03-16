@@ -26,17 +26,17 @@ This project demonstrates a professional penetration testing engagement focused 
 This section documents the initial environment setup using **Kali Linux**. I elevated to root privileges to initialize the **vsftpd** FTP service and executed `tcpdump -D` to identify **eth0** as the primary active interface for traffic interception.
 
 <p align="center">
-  <img src="pic1.PNG" width="700" alt="...">
+  <img src="pic1.PNG" width="700" alt="Kali Desktop Environment">
 </p>
 <p align="center">
-  <img src="pic2.png" width="700" alt="...">
+  <img src="pic2.PNG" width="700" alt="VSFTPD Service Status Check">
 </p>
 
 ### Section 2: Targeted Traffic Capture
 I demonstrated targeted capture using `tcpdump -nn` to disable name resolution, which optimizes processing speed during live analysis. I successfully captured an **ICMP Echo Request and Reply** sequence, confirming reliable bidirectional connectivity between the target host and the attacker machine.
 
 <p align="center">
-  <img src="pic3.png" width="700" alt="...">
+  <img src="pic3.PNG" width="700" alt="ICMP Traffic Capture in Terminal">
 </p>
 
 ### Section 3: Web Traffic & Credential Interception
@@ -45,33 +45,34 @@ In this phase, I targeted unencrypted web traffic on port **80** and saved the d
 Using **Wireshark**, I filtered the capture for **HTTP POST** methods to isolate authentication data. By inspecting the **Packet Bytes pane** of **Frame 431**, user credentials (`jaime@strucureality.com` and `Pa55word!`) were recovered in plaintext JSON format.
 
 <p align="center">
-  <img src="pic4.png" width="700" alt="...">
+  <img src="pic4.PNG" width="700" alt="OWASP Juice Shop Login Page">
 </p>
 
 <p align="center">
-  <img src="pic5.png" width="700" alt="...">
+  <img src="pic5.PNG" width="700" alt="Wireshark Analysis of POST Credentials">
 </p>
 
 ### Section 4: Session Reconstruction
 I utilized the **Follow HTTP Stream** feature to reconstruct the full session transcript for clear-text review. This provided a clear view of the server's **401 Unauthorized** response, confirming the login attempt failed with the message: **"Invalid email or password."**.
 
 <p align="center">
-  <img src="pic7.png" width="700" alt="...">
+  <img src="pic7.PNG" width="700" alt="HTTP Stream showing Login Failure">
 </p>
 
 ### Section 5: FTP Exfiltration & Forensic Reconstruction
-This capture demonstrates the high risk of using the **FTP protocol** without encryption. By filtering for the `ftp` protocol, I identified the plaintext transmission of sensitive commands, specifically recovering the **USER** (`kali`) and **PASS** (`Pa55w0rd!`) credentials.
+This capture demonstrates the high risk of using the **FTP protocol** without encryption. By filtering for the `ftp` protocol, I identified the plaintext transmission of both the **USER** (`kali`) and **PASS** (`Pa55w0rd!`) credentials.
 
 <p align="center">
-  <img src="pic6.png" width="700" alt="...">
+  <img src="pic6.PNG" width="700" alt="FTP Plaintext Credentials in Wireshark">
 </p>
 
 ### Section 6: Sensitive Asset Recovery
 The final stage involved reconstructing a sensitive file transfer intercepted during the session. By following the **FTP-DATA** stream, I was able to extract the full content of an **Issuing CA Certificate (`.crt`)**, demonstrating a critical vulnerability where high-value security assets were compromised over an insecure channel.
+
 <p align="center">
-  <img src="pic8.png" width="700" alt="...">
+  <img src="pic8.PNG" width="700" alt="FTP Data Stream Identification">
 </p>
 
 <p align="center">
-  <img src="pic9.png" width="700" alt="...">
+  <img src="pic9.PNG" width="700" alt="Reconstructed CA Certificate Content">
 </p>
